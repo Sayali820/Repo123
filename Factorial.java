@@ -1,5 +1,5 @@
 public class Factorial {
-     public long factorial(int n) {
+    public long factorial(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("Number cannot be negative");
         }
