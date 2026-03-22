@@ -1,6 +1,8 @@
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -21,13 +23,13 @@ public class EvenOddTest {
         assertEquals("Odd",test.checkNumber(9));
         assertEquals("Odd",test.checkNumber(71));
     }
-    @Test
+    @ParameterizedTest
+    @ValueSource(ints={2,4,6})
     @Order(1)
-    void evenoddTest2()
+    void evenoddTest2(int no)
     {
-        assertEquals("Even",test.checkNumber(0));
-        assertEquals("Odd",test.checkNumber(1));
-        System.out.println("order 1");
+        assertEquals("Even",test.checkNumber(no));
+        
     }
     @Test
     void evenoddTest3()
