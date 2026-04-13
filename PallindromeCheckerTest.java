@@ -1,9 +1,15 @@
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.TestMethodOrder;
+//simgle char , empty string , space , numerical 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PallindromeCheckerTest {
     private PallindromeChecker pallindrome;
     @BeforeEach
@@ -12,29 +18,48 @@ public class PallindromeCheckerTest {
         pallindrome=new PallindromeChecker();
     }
     @Test
-    void pallindromeTest()
+    @Order(3)
+    void pallinTest()
     {
+        assertTrue(pallindrome.isPalindrome("abcba"));
         assertTrue(pallindrome.isPalindrome("madam"));
-        assertFalse(pallindrome.isPalindrome("Sos"));
+        assertTrue(pallindrome.isPalindrome("12321"));
         assertTrue(pallindrome.isPalindrome("nursesrun"));
-        assertTrue(pallindrome.isPalindrome("a"));
+        assertTrue(pallindrome.isPalindrome("racecar"));
+        assertTrue(pallindrome.isPalindrome(" "));
+        //assertTrue(pallindrome.isPalindrome("nurses run"));
+        System.out.println("Order 3");
     }
     @Test
-    void pallindromeTest2()
+    @Order(2)
+    void pallinTest2()
     {
-        assertFalse(pallindrome.isPalindrome("Hello"));
         assertFalse(pallindrome.isPalindrome("sayali"));
+        assertFalse(pallindrome.isPalindrome("Anushka"));
+        System.out.println("Order 2");
     }
     @Test
-    void pallindromeTest3()
+    @Order(1)
+    void nullTest()
     {
-        assertThrows(IllegalArgumentException.class,()->{
+        assertThrows(IllegalArgumentException.class, ()->{
             pallindrome.isPalindrome(null);
         });
+        System.out.println("Order 1");
     }
     @AfterEach
     void cleanup()
     {
         pallindrome=null;
+    }
+    @AfterAll
+    static void print()
+    {
+        System.out.println("testing finished");
+    }
+    @BeforeAll
+    static void print2()
+    {
+        System.out.println("testing begin..");
     }
 }

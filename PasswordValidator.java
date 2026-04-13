@@ -24,7 +24,7 @@ public class PasswordValidator {
 
         // ❗ INTENTIONAL BUG:
         // using OR instead of AND
-        if (hasDigit || hasUpper) {
+        if (hasDigit && hasUpper) {
             return true;
         }
 

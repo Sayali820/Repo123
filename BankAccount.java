@@ -1,5 +1,5 @@
 public class BankAccount {
-     private double balance;
+    private double balance;
 
     // constructor
     public BankAccount(double initialBalance) {
@@ -23,7 +23,7 @@ public class BankAccount {
 
         // ❗ INTENTIONAL BUG:
         // allows withdrawing equal or more than balance
-        if (amount < 0) {
+        if (amount <=0) {
             throw new IllegalArgumentException("Withdraw must be positive");
         }
 

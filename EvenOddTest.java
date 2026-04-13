@@ -1,51 +1,74 @@
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.RepeatedTest;
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 public class EvenOddTest {
-    private EvenOdd test;
+    private EvenOdd no;
     @BeforeEach
     void setup()
     {
-        test=new EvenOdd();
-    }
-    @RepeatedTest(2)
-    void evenoddTest()
-    {
-        assertEquals("Even",test.checkNumber(2));
-        assertEquals("Even",test.checkNumber(42));
-        assertEquals("Odd",test.checkNumber(9));
-        assertEquals("Odd",test.checkNumber(71));
+        no=new EvenOdd();
     }
     @ParameterizedTest
-    @ValueSource(ints={2,4,6})
-    @Order(1)
-    void evenoddTest2(int no)
+    @ValueSource(ints={4,6,8,10})
+    void evenTest(int n)
     {
-        assertEquals("Even",test.checkNumber(no));
-        
+        assertEquals("Even",no.checkNumber(n));
+    }
+    @ParameterizedTest
+    @ValueSource(ints={1,3,5,17})
+    void oddTest(int n)
+    {
+        assertEquals("Odd",no.checkNumber(n));
     }
     @Test
-    void evenoddTest3()
+    void edgeTest()
+    {
+        assertEquals("Even",no.checkNumber(0));
+        assertEquals("Odd",no.checkNumber(9099));
+        assertEquals("Even",no.checkNumber(6884));
+    }
+    @Test
+    void multiTest()
+    {
+        assertEquals("Even",no.checkNumber(0));
+        assertEquals("Odd",no.checkNumber(1));
+        assertEquals("Even",no.checkNumber(2));
+    }
+    @Test
+    void negTest()
     {
         assertThrows(IllegalArgumentException.class, ()->{
-            test.checkNumber(-2);
+            no.checkNumber(-9);
         });
-        assertThrows(IllegalArgumentException.class,()->{
-            test.checkNumber(-100);
+        assertThrows(IllegalArgumentException.class, ()->{
+            no.checkNumber(-10);
         });
+
     }
-    @Test
-    void evenoddTest4()
+    @AfterEach
+    void cleanup()
     {
-        assertEquals("Odd",test.checkNumber(99999));
-        assertEquals("Even",test.checkNumber(293847650));
+        no=null;
     }
-    
+    @AfterAll
+    static void print()
+    {
+        System.out.println("Testing finished");
+    }
+    @BeforeAll
+    static void printfirst()
+    {
+        System.out.println("Testing begin..");
+    }
+
+
+
 }

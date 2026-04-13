@@ -1,17 +1,14 @@
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ShoppingcartTest {
     private ShoppingCart cart;
@@ -21,14 +18,18 @@ public class ShoppingcartTest {
         cart=new ShoppingCart(1000);
     }
     @Test
-    void constructorTest()
+    @Order(6)
+    @DisplayName("constructor checking")
+    void constructorcheck()
     {
         assertThrows(IllegalArgumentException.class,()->{
             cart=new ShoppingCart(-1000);
         });
+        System.out.println("Order 6");
     }
     @Test
-    void itemTest()
+    @Order(5)
+    void itremcheck()
     {
         cart.addItem(100);
         cart.addItem(200);
@@ -36,46 +37,64 @@ public class ShoppingcartTest {
         assertThrows(IllegalArgumentException.class,()->{
             cart.addItem(-100);
         });
+        System.out.println("Order 5");
 
     }
     @Test
-    void itemsum()
+    @Order(4)
+    void totalTest()
     {
         cart.addItem(100);
         cart.addItem(200);
         assertEquals(300,cart.getTotal());
+        cart.addItem(200);
+        assertEquals(500,cart.getTotal());
+        System.out.println("Order 4");
+
     }
     @Test
-    @DisplayName("Testing checkout functionality")
+    void empty()
+    {
+        assertThrows((IllegalArgumentException.class),()->{
+            cart.checkout();
+        });
+    }
+    
+    @Test
     @Order(3)
     void checkoutTest()
     {
         cart.addItem(100);
         cart.addItem(200);
+        cart.getTotal();
         cart.checkout();
         assertEquals(700,cart.getBalance());
         assertEquals(0,cart.getItemCount());
         System.out.println("Order 3");
-
     }
-    @RepeatedTest(2)
+    @Test
     @Order(2)
     void checkoutTest2()
     {
-        cart.addItem(1200);
-        assertThrows(IllegalArgumentException.class,()->{
-            cart.checkout();
-        });
+        cart.addItem(500);
+        cart.addItem(500);
+        cart.getTotal();
+        cart.checkout();
+        assertEquals(0,cart.getBalance());
+        assertEquals(0,cart.getItemCount());
         System.out.println("Order 2");
     }
     @Test
     @Order(1)
     void checkoutTest3()
     {
-        cart.addItem(1000);
-        cart.checkout();
-        assertEquals(0,cart.getBalance());
-        assertEquals(0,cart.getItemCount());
+        cart.addItem(500);
+        cart.addItem(600);
+        double total=cart.getTotal();
+        assertTrue(total>cart.getBalance());
+        assertThrows(IllegalArgumentException.class, ()->{
+            cart.checkout();
+        });
         System.out.println("Order 1");
     }
     @AfterEach
@@ -84,14 +103,19 @@ public class ShoppingcartTest {
         cart=null;
     }
     @AfterAll
-    static void last()
+    static void print()
     {
-        System.out.println("Finish testing");
+        System.out.println("Testing finished..");
     }
     @BeforeAll
-    static void first()
+    static void printfirst()
     {
-        System.out.println("started testing");
+        System.out.println("Testing begin..");
     }
 
+
+
+
+
+    
 }
